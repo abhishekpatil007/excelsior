@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-import { motion } from "framer-motion"
 import { AnimatedGradient } from "@/components/ui/animated-gradient-with-svg"
+import { motion } from "framer-motion"
 
 interface BentoCardProps {
   title: string
@@ -13,30 +13,26 @@ interface BentoCardProps {
 }
 
 const BentoCard: React.FC<BentoCardProps> = ({ title, value, subtitle, colors, delay }) => {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: delay + 0.3,
-      },
-    },
-  }
-
-  const item = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { duration: 0.5 } },
-  }
-
   return (
     <motion.div
       className="relative overflow-hidden h-full bg-black rounded-lg border border-border/20 group"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay }}
       style={{
         filter: "url(#noise)",
+      }}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ 
+        duration: 0.8, 
+        delay: delay,
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }}
+      whileHover={{ 
+        scale: 1.02,
+        rotateY: 2,
+        transition: { duration: 0.3 }
       }}
     >
       <AnimatedGradient colors={colors} speed={0.05} blur="medium" />
@@ -68,20 +64,39 @@ const BentoCard: React.FC<BentoCardProps> = ({ title, value, subtitle, colors, d
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full animate-[shine_4s_ease-in-out_infinite] w-[200%]" />
       </div>
 
-      <motion.div
+      <motion.div 
         className="relative z-10 p-3 sm:p-5 md:p-8 text-foreground backdrop-blur-sm h-full flex flex-col justify-center"
-        variants={container}
-        initial="hidden"
-        animate="show"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: delay + 0.2, duration: 0.6 }}
       >
-        <motion.h3 className="text-sm sm:text-base md:text-lg text-foreground mb-2" variants={item}>
+        <motion.h3 
+          className="text-sm sm:text-base md:text-lg text-foreground mb-2"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: delay + 0.3, duration: 0.5 }}
+        >
           {title}
         </motion.h3>
-        <motion.p className="text-2xl sm:text-4xl md:text-5xl font-medium mb-4 text-foreground" variants={item}>
+        <motion.p 
+          className="text-2xl sm:text-4xl md:text-5xl font-medium mb-4 text-foreground"
+          initial={{ scale: 0 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: delay + 0.4, type: "spring", stiffness: 200 }}
+        >
           {value}
         </motion.p>
         {subtitle && (
-          <motion.p className="text-sm text-foreground/80" variants={item}>
+          <motion.p 
+            className="text-sm text-foreground/80"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: delay + 0.5, duration: 0.5 }}
+          >
             {subtitle}
           </motion.p>
         )}
@@ -91,6 +106,48 @@ const BentoCard: React.FC<BentoCardProps> = ({ title, value, subtitle, colors, d
 }
 
 export function AnimatedFeaturesSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  }
+
+  const floatingVariants = {
+    hidden: { y: 0, opacity: 0 },
+    visible: {
+      y: [-5, 5, -5],
+      opacity: 1,
+      transition: {
+        y: {
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
+        opacity: {
+          duration: 0.5,
+        },
+      },
+    },
+  }
+
   return (
     <section id="features" className="py-20 px-4 bg-black">
       <svg width="0" height="0" className="absolute">
@@ -107,44 +164,93 @@ export function AnimatedFeaturesSection() {
       </svg>
 
       <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-            What You'll Learn
-          </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Comprehensive curriculum designed to transform you into a confident trader
-          </p>
-        </div>
+        <motion.div 
+          className="text-center mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold text-white mb-6" 
+            style={{ fontFamily: "var(--font-playfair)" }}
+            variants={itemVariants}
+          >
+            Comprehensive Trading Education
+          </motion.h2>
+          <motion.p 
+            className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8"
+            variants={itemVariants}
+          >
+            Our proven curriculum has helped over 10,000 students achieve financial independence through systematic trading education
+          </motion.p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[600px]">
+          {/* Course Highlights */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12"
+            variants={containerVariants}
+          >
+            {[
+              { number: "50+", label: "Video Lessons" },
+              { number: "100+", label: "Trading Strategies" },
+              { number: "24/7", label: "Community Support" },
+              { number: "Lifetime", label: "Access" }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6"
+                variants={floatingVariants}
+                whileHover={{ 
+                  scale: 1.05,
+                  rotateY: 3,
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.div 
+                  className="text-2xl font-bold text-white mb-2"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 + index * 0.1, type: "spring", stiffness: 200 }}
+                >
+                  {stat.number}
+                </motion.div>
+                <div className="text-gray-300 text-sm">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[700px]">
           <div className="md:col-span-2">
             <BentoCard
               title="Technical Analysis Mastery"
-              value="Chart Patterns"
-              subtitle="Master candlestick patterns, support & resistance, trend lines, and technical indicators for precise market timing"
+              value="Chart Patterns & Indicators"
+              subtitle="Master 50+ candlestick patterns, support & resistance levels, trend analysis, RSI, MACD, Bollinger Bands, and advanced charting techniques for precise market timing and entry/exit strategies"
               colors={["#1a1a1a", "#2a2a2a", "#1f1f1f"]}
               delay={0.2}
             />
           </div>
           <BentoCard
             title="Risk Management"
-            value="Essential"
-            subtitle="Protect your capital"
+            value="Capital Protection"
+            subtitle="Learn position sizing, stop-loss strategies, portfolio diversification, and risk-reward ratios to protect and grow your capital systematically"
             colors={["#151515", "#252525", "#1d1d1d"]}
             delay={0.4}
           />
           <BentoCard
             title="Success Rate"
-            value="85%+"
-            subtitle="Proven strategies"
+            value="95%+"
+            subtitle="Our students achieve consistent profits using our proven systematic approach to trading and investing"
             colors={["#1c1c1c", "#2c2c2c", "#181818"]}
             delay={0.6}
           />
           <div className="md:col-span-2">
             <BentoCard
-              title="Fundamental Analysis"
-              value="Deep Dive"
-              subtitle="Learn to evaluate companies using financial statements, ratios, and economic indicators for long-term investing"
+              title="Fundamental Analysis & Market Research"
+              value="Company Valuation"
+              subtitle="Master financial statement analysis, P/E ratios, debt-to-equity, cash flow analysis, sector analysis, and economic indicators for long-term wealth building"
               colors={["#171717", "#272727", "#1b1b1b"]}
               delay={0.8}
             />
@@ -152,8 +258,8 @@ export function AnimatedFeaturesSection() {
           <div className="md:col-span-3">
             <BentoCard
               title="Live Trading Sessions & Portfolio Management"
-              value="Real-time"
-              subtitle="Join live market analysis sessions and learn to build, manage, and optimize a diversified investment portfolio"
+              value="Real-time Market Analysis"
+              subtitle="Join daily live trading sessions, learn portfolio construction, asset allocation, rebalancing strategies, and get real-time market insights from expert traders"
               colors={["#131313", "#232323", "#191919"]}
               delay={1}
             />

@@ -7,12 +7,15 @@ import { Check, TrendingUp, Users, Award, Target, Zap, Shield, BarChart3, BookOp
 import { GridBackground } from "@/components/ui/grid-background"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { useModal } from "@/components/ui/modal-provider"
 
 export default function WhyUsPage() {
+  const { openContactModal } = useModal()
   return (
     <GridBackground className="min-h-screen">
       <Header />
       <main className="pt-32 pb-20">
+        {/* Removed top card section as requested */}
         {/* Hero Section */}
         <section className="px-4 mb-32">
           <div className="container mx-auto text-center">
@@ -28,10 +31,10 @@ export default function WhyUsPage() {
                 We're not just another stock market course. We're your partner in building lasting wealth through proven strategies and personalized mentorship.
               </p>
               <div className="flex gap-4 justify-center mt-8">
-                <Button size="lg" className="bg-white hover:bg-gray-200 text-black">
+                <Button size="lg" className="bg-white hover:bg-gray-200 text-black" onClick={() => openContactModal("Start Your Journey", "Fill in your details and we'll get back to you within 24 hours") }>
                   Start Your Journey
                 </Button>
-                <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent">
+                <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent" onClick={() => openContactModal("View Curriculum", "Share your details to receive the detailed curriculum") }>
                   View Curriculum
                 </Button>
               </div>
@@ -596,7 +599,7 @@ export default function WhyUsPage() {
                 <p className="text-gray-300 text-lg mb-6">
                   Get instant access to our premium LMS portal when you enroll. Start learning within minutes of signup!
                 </p>
-                <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8">
+                <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8" onClick={() => openContactModal("Get Portal Access Now", "We will help you get access to the LMS portal") }>
                   Get Portal Access Now
                 </Button>
               </div>
@@ -628,7 +631,7 @@ export default function WhyUsPage() {
                   </p>
                   <div className="text-white font-semibold">- The Excelsior Team</div>
                 </div>
-                <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8">
+                <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8" onClick={() => openContactModal("Enroll Risk-Free Today", "Enroll now and our team will reach out to you") }>
                   Enroll Risk-Free Today
                 </Button>
               </div>

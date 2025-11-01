@@ -6,8 +6,10 @@ import { Check, Phone, Award, TrendingUp, Target, Calendar, Gift, Star } from "l
 import { motion } from "framer-motion"
 import { AnimatedGradient } from "@/components/ui/animated-gradient-with-svg"
 import { GridBackground } from "@/components/ui/grid-background"
+import { useModal } from "@/components/ui/modal-provider"
 
 export default function PricingPage() {
+  const { openContactModal } = useModal()
   const questions = [
     "Want to learn stock and forex trading?",
     "Want to make consistent profits in Banknifty & Nifty Options?",
@@ -163,14 +165,16 @@ export default function PricingPage() {
           </div>
         </section>
 
+        {/* Pricing section removed as requested */}
+
         {/* Course Takeaways */}
         <section className="px-4 mb-20">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-                Course Takeaways
+                Complete Curriculum
               </h2>
-              <p className="text-xl text-gray-400">Complete curriculum covering all aspects of trading and investment</p>
+              <p className="text-xl text-gray-400">Comprehensive learning covering all aspects of trading and investment</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -306,10 +310,16 @@ export default function PricingPage() {
                   Join hundreds of successful traders who transformed their financial future with Excelsior
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105">
+                  <button 
+                    className="bg-white hover:bg-gray-200 text-black px-8 py-4 rounded-lg font-semibold transition-all hover:scale-105"
+                    onClick={() => openContactModal("Enroll Now", "Fill in your details to enroll in our trading courses")}
+                  >
                     Enroll Now
                   </button>
-                  <button className="bg-transparent border border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-lg font-semibold transition-all">
+                  <button 
+                    className="bg-transparent border border-white/20 text-white hover:bg-white/10 px-8 py-4 rounded-lg font-semibold transition-all"
+                    onClick={() => openContactModal("Contact Us", "Get in touch with our team for any questions")}
+                  >
                     Contact Us
                   </button>
                 </div>

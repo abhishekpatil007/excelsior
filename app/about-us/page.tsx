@@ -7,8 +7,10 @@ import { TrendingUp, Users, Award, Target, Heart, Lightbulb, Shield, Rocket, Bar
 import { GridBackground } from "@/components/ui/grid-background"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { useModal } from "@/components/ui/modal-provider"
 
 export default function AboutUsPage() {
+  const { openContactModal } = useModal()
   return (
     <GridBackground className="min-h-screen">
       <Header />
@@ -34,10 +36,10 @@ export default function AboutUsPage() {
                 to take control of their financial future through expert-led training and proven strategies.
               </p>
               <div className="flex gap-4 justify-center">
-                <Button size="lg" className="bg-white hover:bg-gray-200 text-black">
+                <Button size="lg" className="bg-white hover:bg-gray-200 text-black" onClick={() => openContactModal("Join Our Community", "Share your details to join our trader community") }>
                   Join Our Community
                 </Button>
-                <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent">
+                <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent" onClick={() => openContactModal("Our Impact", "Get our impact report and student success stories") }>
                   Our Impact
                 </Button>
               </div>
@@ -468,10 +470,10 @@ export default function AboutUsPage() {
                   Your journey to financial freedom starts here.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8">
+                  <Button size="lg" className="bg-white hover:bg-gray-200 text-black text-lg px-8" onClick={() => openContactModal("Enroll Now", "Fill your details to enroll and our team will assist you") }>
                     Enroll Now
                   </Button>
-                  <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent text-lg px-8">
+                  <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 bg-transparent text-lg px-8" onClick={() => openContactModal("Talk to Our Team", "Leave your contact and we will reach out shortly") }>
                     Talk to Our Team
                   </Button>
                 </div>

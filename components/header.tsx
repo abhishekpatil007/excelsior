@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react"
 import { LeLoLogo } from "./lelo-logo"
 import { Button } from "./ui/button"
+import { useModal } from "./ui/modal-provider"
 
 export function Header() {
+  const { openContactModal } = useModal()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -87,6 +89,7 @@ export function Header() {
           <Button
             size="sm"
             className="bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-200 hover:scale-105 hover:shadow-lg rounded-xl"
+            onClick={() => openContactModal("Enroll Now", "Share your details and our team will reach out to you")}
           >
             Enroll Now
           </Button>

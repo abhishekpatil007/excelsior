@@ -3,6 +3,7 @@
 import type React from "react"
 import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google"
 import { Suspense } from "react"
+import { ModalProvider } from "@/components/ui/modal-provider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,7 +28,11 @@ function ClientLayoutContent({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable}`}>{children}</body>
+      <body className={`font-sans ${inter.variable} ${jetbrainsMono.variable} ${playfair.variable}`}>
+        <ModalProvider>
+          {children}
+        </ModalProvider>
+      </body>
     </html>
   )
 }

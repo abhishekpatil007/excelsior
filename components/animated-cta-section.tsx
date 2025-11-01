@@ -4,9 +4,11 @@ import { useRef } from "react"
 import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
 import { BackgroundPaths } from "./ui/floating-paths"
+import { useModal } from "./ui/modal-provider"
 
 export function AnimatedCTASection() {
   const contentRef = useRef<HTMLDivElement>(null)
+  const { openContactModal } = useModal()
 
   return (
     <section className="relative py-20 px-4 overflow-hidden">
@@ -60,11 +62,11 @@ export function AnimatedCTASection() {
             className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up"
             style={{ animationDelay: "0.9s" }}
           >
-            <Button size="lg" className="bg-white text-black hover:bg-white/90 group">
+            <Button size="lg" className="bg-white text-black hover:bg-white/90 group" onClick={() => openContactModal("Enroll in Course", "Fill your details to enroll and our team will assist you") }>
               Enroll in Course
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent" onClick={() => openContactModal("Download Free Guide", "Share your email to receive the free guide") }>
               Download Free Guide
             </Button>
           </div>
