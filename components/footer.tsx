@@ -6,7 +6,9 @@ export function Footer() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <LeLoLogo className="mb-4" />
+            <div className="mb-4">
+              <LeLoLogo className="text-white" />
+            </div>
             <p className="text-white/70 mb-4 max-w-md">
               Excelsior - Empowering traders and investors with comprehensive stock market education. Transform your financial future with proven strategies.
             </p>

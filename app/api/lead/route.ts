@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
 import { Resend } from "resend"
+import { google } from "googleapis"
+import emailjs from "@emailjs/nodejs"
 
 export async function POST(request: Request) {
   try {
@@ -15,6 +17,7 @@ export async function POST(request: Request) {
     const fromEmail = process.env.FROM_EMAIL || process.env.SMTP_USER || "no-reply@localhost"
 
     const hasResend = !!process.env.RESEND_API_KEY
+    const hasEmailJS = !!(process.env.EMAILJS_PUBLIC_KEY && process.env.EMAILJS_SERVICE_ID && process.env.EMAILJS_TEMPLATE_ID)
     const hasSmtp = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)
     const hasGmailOAuth = !!(
       process.env.GMAIL_CLIENT_ID &&
@@ -25,8 +28,35 @@ export async function POST(request: Request) {
 
     let sent = false
 
-    // Prefer Resend if available (simpler auth, no SMTP needed)
-    if (hasResend) {
+    // Debug: log which providers are available
+    console.log('Email providers check:', { hasResend, hasEmailJS, hasSmtp, hasGmailOAuth })
+
+    // Prioritize EmailJS (simplest setup)
+    if (hasEmailJS) {
+      try {
+        await emailjs.send(
+          process.env.EMAILJS_SERVICE_ID!,
+          process.env.EMAILJS_TEMPLATE_ID!,
+          {
+            to_email: toEmail,
+            from_name: name,
+            from_email: email,
+            phone: phone || "-",
+            subject: `${sourceTitle || "New Lead"} - ${sourceSubtitle || ""}`,
+            message: message || "-",
+            source_title: sourceTitle || "-",
+            source_subtitle: sourceSubtitle || "-",
+          },
+          {
+            publicKey: process.env.EMAILJS_PUBLIC_KEY!,
+          }
+        )
+        sent = true
+        console.log('EmailJS sent successfully')
+      } catch (e) {
+        console.error("EmailJS send failed:", e)
+      }
+    } else if (hasResend) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY)
         const subject = `New Lead: ${name} (${email})`
@@ -63,26 +93,45 @@ export async function POST(request: Request) {
           `Time: ${new Date().toISOString()}`,
         ].join("\n")
 
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            type: 'OAuth2',
-            user: process.env.GMAIL_USER,
-            clientId: process.env.GMAIL_CLIENT_ID,
-            clientSecret: process.env.GMAIL_CLIENT_SECRET,
-            refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-          } as any,
+        // Use googleapis for Gmail OAuth2
+        const oauth2Client = new google.auth.OAuth2(
+          process.env.GMAIL_CLIENT_ID,
+          process.env.GMAIL_CLIENT_SECRET,
+          'https://developers.google.com/oauthplayground'
+        )
+
+        oauth2Client.setCredentials({
+          refresh_token: process.env.GMAIL_REFRESH_TOKEN,
         })
 
-        await transporter.sendMail({
-          to: toEmail,
-          from: process.env.GMAIL_USER,
-          subject,
+        const gmail = google.gmail({ version: 'v1', auth: oauth2Client })
+
+        // Create email message
+        const emailContent = [
+          `To: ${toEmail}`,
+          `From: ${process.env.GMAIL_USER}`,
+          `Subject: ${subject}`,
+          '',
           text,
+        ].join('\n')
+
+        const encodedMessage = Buffer.from(emailContent).toString('base64')
+
+        await gmail.users.messages.send({
+          userId: 'me',
+          requestBody: {
+            raw: encodedMessage,
+          },
         })
+
         sent = true
-      } catch (e) {
-        console.warn('Gmail OAuth send failed:', e)
+      } catch (e: any) {
+        console.error('Gmail OAuth send failed:', e)
+        console.error('Error message:', e?.message)
+        console.error('Error code:', e?.code)
+        if (e?.response?.data) {
+          console.error('Error details:', JSON.stringify(e.response.data, null, 2))
+        }
       }
     } else if (hasSmtp) {
       const transporter = nodemailer.createTransport({

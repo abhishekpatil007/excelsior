@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <GridBackground className="min-h-screen">
       <Header />
-      <main className="pt-20">
+      <main className="pt-16 md:pt-20">
         <HeroSection />
         <AnimatedFeaturesSection />
         <FAQSection />
