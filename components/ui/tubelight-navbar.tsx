@@ -107,11 +107,11 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-4 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-0",
+        "fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[95vw] max-w-md px-2 sm:bottom-auto sm:top-4 sm:w-auto sm:max-w-none sm:px-0",
         className,
       )}
     >
-      <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
+      <div className="flex items-center gap-2 sm:gap-3 bg-black/95 backdrop-blur-xl border-2 border-white/40 py-3 px-2 sm:py-1 sm:px-1 rounded-full shadow-2xl sm:bg-background/80 sm:border sm:border-border/50 mx-auto max-w-fit">
         {safeItems.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.name
@@ -122,14 +122,14 @@ export function NavBar({ items, className }: NavBarProps) {
               href={item.url}
               onClick={() => setActiveTab(item.name)}
               className={cn(
-                "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
-                "text-foreground/80 hover:text-primary",
-                isActive && "bg-muted text-primary",
+                "relative cursor-pointer text-sm font-semibold px-3 py-3 sm:px-6 sm:py-2 rounded-full transition-colors",
+                "text-white hover:text-primary sm:text-foreground/80",
+                isActive && "bg-primary/20 text-primary border border-primary/30 sm:bg-muted",
               )}
             >
               <span className="hidden md:inline">{item.name}</span>
-              <span className="md:hidden">
-                <Icon size={18} strokeWidth={2.5} />
+              <span className="md:hidden flex items-center justify-center">
+                <Icon size={20} strokeWidth={2.5} />
               </span>
               {isActive && (
                 <motion.div
