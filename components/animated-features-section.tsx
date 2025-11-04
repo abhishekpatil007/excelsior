@@ -15,7 +15,7 @@ interface BentoCardProps {
 const BentoCard: React.FC<BentoCardProps> = ({ title, value, subtitle, colors, delay }) => {
   return (
     <motion.div
-      className="relative overflow-hidden h-full bg-black rounded-lg border border-border/20 group"
+      className="relative overflow-hidden h-full min-h-[300px] md:min-h-0 bg-black rounded-lg border border-border/20 group"
       style={{
         filter: "url(#noise)",
       }}
@@ -91,7 +91,7 @@ const BentoCard: React.FC<BentoCardProps> = ({ title, value, subtitle, colors, d
         </motion.p>
         {subtitle && (
           <motion.p 
-            className="text-sm text-foreground/80"
+            className="text-sm text-foreground/80 leading-relaxed break-words"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -222,7 +222,7 @@ export function AnimatedFeaturesSection() {
           </motion.div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-[700px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[700px]">
           <div className="md:col-span-2">
             <BentoCard
               title="Technical Analysis Mastery"

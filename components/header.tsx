@@ -38,7 +38,7 @@ export function Header() {
   return (
     <>
       {/* Logo at top left */}
-      <div className="fixed top-8 left-4 sm:left-6 z-50 flex items-center">
+      <div className="relative z-50 flex items-center p-4 sm:p-6">
         <a 
           href="/" 
           className="transform transition-transform duration-200 hover:scale-105 flex items-center"

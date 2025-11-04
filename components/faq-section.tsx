@@ -31,14 +31,9 @@ const faqs = [
       "Absolutely! Every concept is reinforced with real market examples, live case studies, and actual trade analysis. Our Professional and Elite tiers include daily live trading sessions where you can watch real trades being analyzed and executed in real-time. We also provide access to real portfolio examples, trade journals, and success stories so you can see how successful traders apply these strategies in different market conditions.",
   },
   {
-    question: "Is there a money-back guarantee?",
-    answer:
-      "Yes, we offer a comprehensive 30-day money-back guarantee for all courses. If you're not completely satisfied with the content, quality, or value within the first 30 days of enrollment, simply contact our support team for a full refund—no questions asked. We're confident in our curriculum and want you to be completely satisfied with your investment in your financial education.",
-  },
-  {
     question: "How much capital do I need to start trading?",
     answer:
-      "You can start learning immediately without any capital. When you're ready to trade, you can begin with as little as ₹10,000-₹25,000. We teach proper position sizing, risk management, and capital allocation so you can grow your account safely regardless of your starting capital. The course focuses on building skills and knowledge first, not requiring large investments. Many successful traders started with small amounts and grew their accounts systematically.",
+      "You can start learning immediately without any capital. When you're ready to trade, you can begin with as little as ₹25,000-₹30,000. We teach proper position sizing, risk management, and capital allocation so you can grow your account safely regardless of your starting capital. The course focuses on building skills and knowledge first, not requiring large investments. Many successful traders started with small amounts and grew their accounts systematically.",
   },
   {
     question: "Will I get support if I have questions during the course?",
@@ -95,7 +90,7 @@ export function FAQSection() {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8"
           >
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
-              <div className="text-2xl font-bold text-white mb-2">12</div>
+              <div className="text-2xl font-bold text-white mb-2">11</div>
               <div className="text-gray-300 text-sm">Comprehensive FAQs</div>
             </div>
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
